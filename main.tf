@@ -20,11 +20,11 @@ provider "azurerm" {
 # Source оновлено до формату Terraform Registry відповідно до вимог ментора.
 # ----------------------------------------------------
 module "resource_group_storage" {
-  # Формат Registry: <NAMESPACE>/<NAME_WITHOUT_PREFIX>/<PROVIDER>//<PATH_TO_SUBMODULE>
-  source  = "Langrafka/resource_group_storage/azurerm//modules/resource_group_storage"
+  # !!! ВИПРАВЛЕНО: Source тепер вказує лише на кореневий каталог !!!
+  source = "Langrafka/resource_group_storage/azurerm"
 
-  # Використовуємо останній, чистий тег
-  version = "1.0.3"
+  # Оновлюємо версію
+  version = "1.0.4"
 
   # Змінні, що передаються у ваш модуль
   resource_group_name  = "rg-module-final-test"
@@ -47,7 +47,7 @@ output "final_rg_id" {
 }
 
 output "final_storage_key" {
-    description = "The primary access key for the Storage Account."
-    value       = module.resource_group_storage.storage_account_primary_access_key
-    sensitive   = true
+  description = "The primary access key for the Storage Account."
+  value       = module.resource_group_storage.storage_account_primary_access_key
+  sensitive   = true
 }
