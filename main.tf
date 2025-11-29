@@ -19,7 +19,7 @@ provider "azurerm" {
 # ----------------------------------------------------
 module "prod_infra_via_registry" {
   # !!! ВИПРАВЛЕНО: Закриті лапки та додано шлях до підмодуля !!!
-  source  = "Langrafka/resource_group_storage/azurerm//modules/resource_group_storage"
+  source  = "git::https://github.com/Langrafka/terraform-azurerm-resource_group_storage.git//modules/resource_group_storage?ref=v1.0.3"
   # !!! ОНОВЛЕНО: Використовуємо новий, чистий тег !!!
   version = "1.0.3"
 
