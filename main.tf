@@ -16,11 +16,15 @@ provider "azurerm" {
 
 # ----------------------------------------------------
 # 2. ВИКЛИК ОПУБЛІКОВАНОГО МОДУЛЯ (Крок 5)
+# Назва модуля змінена на "resource_group_storage" для проходження CI/CD.
+# Source оновлено до формату Terraform Registry відповідно до вимог ментора.
 # ----------------------------------------------------
-module "prod_infra_via_registry" {
-  # !!! ВИПРАВЛЕНО: Закриті лапки та додано шлях до підмодуля !!!
-  source  = "git::https://github.com/Langrafka/terraform-azurerm-resource_group_storage.git//modules/resource_group_storage?ref=v1.0.3"
-  # !!! ОНОВЛЕНО: Використовуємо новий, чистий тег !!!
+module "resource_group_storage" {
+  # Формат Registry: <NAMESPACE>/<NAME_WITHOUT_PREFIX>/<PROVIDER>//<PATH_TO_SUBMODULE>
+  source  = "Langrafka/resource_group_storage/azurerm//modules/resource_group_storage"
+
+  # Використовуємо останній, чистий тег
+  version = "1.0.3"
 
   # Змінні, що передаються у ваш модуль
   resource_group_name  = "rg-module-final-test"
@@ -36,14 +40,14 @@ module "prod_infra_via_registry" {
 # ----------------------------------------------------
 # 3. ВИХІДНІ ДАНІ
 # ----------------------------------------------------
+# Outputs посилаються на оновлену назву модуля
 output "final_rg_id" {
   description = "The ID of the Resource Group created by the published module."
-  value       = module.prod_infra_via_registry.resource_group_id
+  value       = module.resource_group_storage.resource_group_id
 }
 
-# (Додано Output для Storage Key для повноти)
 output "final_storage_key" {
     description = "The primary access key for the Storage Account."
-    value       = module.prod_infra_via_registry.storage_account_primary_access_key
+    value       = module.resource_group_storage.storage_account_primary_access_key
     sensitive   = true
 }
